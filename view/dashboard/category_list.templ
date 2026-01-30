@@ -1,0 +1,11 @@
+package dashboard
+
+import "shared-todo/db"
+
+templ CategoryList(Categories []db.CategoryDTO) {
+    <ul id="category-list" class="list-group">
+    for _, categ := range Categories {
+        @CategoryItem(categ)
+    }
+    </ul>
+}

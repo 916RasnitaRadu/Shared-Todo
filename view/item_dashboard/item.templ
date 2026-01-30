@@ -1,0 +1,33 @@
+package item_dashboard
+
+import "fmt"
+import "shared-todo/db"
+import "encoding/json"
+
+func convertMapToJSON(m map[string]string) string {
+    jsonString, err := json.Marshal(m)
+    if err != nil {
+        return ""
+    }
+
+    return string(jsonString)
+}
+
+templ Item(item db.ItemDTO) {
+
+    <div class="item">
+        <input name="done"
+            type="checkbox"
+            hx-trigger="change"
+            if item.Done {
+                checked
+            }
+            hx-put={"/items/" + fmt.Sprintf("%d", item.ID)} 
+            hx-vals={convertMapToJSON(map[string]string{"test": "123"})}
+            />
+
+        <li class="list-group-item">{item.Name} <br> {item.Description} <br> {fmt.Sprintf("%v", item.CreatedAt.Format("2006-01-02 15:04"))}</li>
+        <button hx-delete={"/items/" + fmt.Sprintf("%d", item.ID)} hx-target="#item-list" hx-swap="outerHTML">-</button>
+
+    </div>
+}

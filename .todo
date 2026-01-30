@@ -1,0 +1,6 @@
+- htmx integration / sample call
+- html5 template with headers and such
+- tailwind css generation
+- support for css / scss and structure for importing files 
+- component based styling 
+- testing

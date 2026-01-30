@@ -1,0 +1,11 @@
+package item_dashboard
+
+import "shared-todo/db"
+
+templ ItemList(items []db.ItemDTO) {
+    <ul id="item-list" class="list-group">
+        for _, item := range items {
+            @Item(item)
+        }
+    </ul>
+}

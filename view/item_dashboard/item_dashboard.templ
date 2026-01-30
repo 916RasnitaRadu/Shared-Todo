@@ -1,0 +1,118 @@
+package item_dashboard
+
+import "fmt"
+import "shared-todo/db"
+
+templ ItemDashboard(items []db.ItemDTO, categ_id int32) {
+    <style>
+       .list-group {
+            list-style-type: none;
+            padding: 0;
+            margin: 50 0 0 0;
+            gap: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+        
+        .list-group-item {
+            background-color: #ffffff;
+            width: 300px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list-group-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-group-item:last-child {
+            margin-bottom: 0;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-size: 16px;
+           /* margin-top: 50px;*/
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .util {
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+        }
+    </style>
+
+    <div class="container">
+        @ItemList(items)
+
+        <div class="button-container">
+            <button class="util" id="show-form">+</button>
+        </div>
+
+        <div id="new-item-form" class="form-container" style="display: none;">
+            <form id="item-form" hx-post={"/categories/" + fmt.Sprintf("%d", categ_id) + "/items"} hx-target="#item-list" hx-swap="beforeend">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" required>
+            </div>
+
+            <button type="submit">Submit</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('show-form').addEventListener('click', () => {
+            var form = document.getElementById('new-item-form');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        });
+    </script>
+}

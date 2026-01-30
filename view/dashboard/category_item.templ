@@ -1,0 +1,17 @@
+package dashboard
+
+import "fmt"
+import "shared-todo/db"
+
+templ CategoryItem(categ db.CategoryDTO) {
+
+    <div class="item">
+        <li class="list-group-item">{categ.Name} - {fmt.Sprintf("%d", categ.Priority)}</li>
+        <button hx-delete={"/categories/" + fmt.Sprintf("%d", categ.ID)} hx-target="#category-list" hx-swap="outerHTML">-</button>
+
+        <form action={templ.SafeURL("/categories/" + fmt.Sprintf("%d", categ.ID) + "/items")} method="GET" style="display: inline;">
+            <button type="submit">Show Items</button>
+        </form>
+    </div>
+
+}
